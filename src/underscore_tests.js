@@ -195,11 +195,31 @@ var _ = { };
   // Extend a given object with all the properties of the passed in
   // object(s).
   _.extend = function(obj) {
+    var passedInObjects = Array.prototype.slice.call(arguments, 1);
+    for (var i = 0; i < passedInObjects.length; i++){
+      for (var key in passedInObjects[i]) {
+        obj[key] = passedInObjects[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var passedInObjects = Array.prototype.slice.call(arguments, 1);
+    for (var i = 0; i < passedInObjects.length; i++){
+      for (var key in passedInObjects[i]) {
+        var hasProperty = false
+        if(obj.hasOwnProperty(key)){
+          hasProperty = true;
+        }
+        if(hasProperty === false){
+          obj[key] = passedInObjects[i][key];
+        }
+      }
+    }
+    return obj;
   };
 
 
