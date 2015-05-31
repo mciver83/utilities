@@ -289,16 +289,76 @@ var _ = { };
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
+
+
+  //
+
   _.sortBy = function(collection, iterator) {
     var sortedArray = [];
-    if(iterator) {
-      for (iterator in collection) {
-        for(var i = 0; i < sortedArray.length; i++) {
+    for (var key in collection) {
+      var obj = collection[key];
+      ///*
+      if(typeof iterator === 'string') {
+        var objProperty = obj.iterator;
+        if(sortedArray.length === 0 || !objProperty) {
+          sortedArray.push(obj);
+        }else{
 
+          for(var i = 0; i < sortedArray.length; i++){
+            var current = sortedArray[i];
+            var currentProperty = current.iterator;
+            var next = sortedArray[i + 1];
+        
+            if(!currentProperty || currentProperty > objProperty){
+              sortedArray.splice(i, 0, obj);
+              break;
+            } else if(!next){
+              sortedArray.push(obj);
+              break;
+            } else {
+              var nextProperty = next.iterator;
+              if(nextProperty > objProperty){
+              sortedArray.splice(i+1, 0, obj);
+              break;
+              }
+            }
+          }
         }
-      }
+
+      }else{
+        //*/
+        var objProperty = iterator(obj);
+
+        if(sortedArray.length === 0 || !objProperty) {
+          sortedArray.push(obj);
+        }else{
+
+          for(var i = 0; i < sortedArray.length; i++){
+            var current = sortedArray[i];
+            var currentProperty = iterator(current);
+            var next = sortedArray[i + 1];
+        
+            if(!currentProperty || currentProperty > objProperty){
+              sortedArray.splice(i, 0, obj);
+              break;
+            } else if(!next){
+              sortedArray.push(obj);
+              break;
+            } else {
+              var nextProperty = iterator(next);
+              if(nextProperty > objProperty){
+              sortedArray.splice(i+1, 0, obj);
+              break;
+              }
+            }
+          }
+        }
+      }     
     }
+    return sortedArray;
   };
+  
+  
 
   // Zip together two or more arrays with elements of the same index
   // going together.
