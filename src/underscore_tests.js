@@ -329,11 +329,15 @@ _.flatten = function(nestedArray) {
   _.intersection = function() {
     var newArray = [];
     var myArguments = Array.prototype.slice.call(arguments, 0);
-    for(var i = 0; i < myArguments.length; i++) {
-      for(var j = 0; j < myArguments[i].length; j++) {
-        if(newArray.indexOf(myArguments[i][j]) === -1) {
-          newArray.push(myArguments[i][j]);
+    var result = true;
+    for(var i = 0; i < myArguments[0].length; i++){
+      for(var j = 1; j < myArguments.length; j++) {
+        if(myArguments[j].indexOf(myArguments[0][i]) === -1) {
+          result = false;
         }
+      }
+      if(result === true){
+        newArray.push(myArguments[0][i]);
       }
     }
     return newArray;
@@ -344,15 +348,20 @@ _.flatten = function(nestedArray) {
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
     var newArray = [];
-    var myArguments = Array.prototype.slice.call(arguments, 0);
-    for(var i = 0; i < myArguments.length; i++) {
-      for(var j = 0; j < myArguments[i].length; j++) {
-        if(newArray.indexOf(myArguments[i][j]) === -1) {
-          newArray.push(myArguments[i][j]);
+    var myArguments = Array.prototype.slice.call(arguments, 1);
+    for(var i = 0; i < array.length; i++){
+      var result = false;
+      for(var j = 0; j < myArguments.length; j++) {
+        if(myArguments[j].indexOf(array[i]) !== -1) {
+          result = true;
         }
+      }
+      if(result === false){
+        newArray.push(array[i]);
       }
     }
     return newArray;
+    
   };
 
 }).call(this);
