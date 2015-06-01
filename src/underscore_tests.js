@@ -299,14 +299,14 @@ var _ = { };
       var obj = collection[key];
       ///*
       if(typeof iterator === 'string') {
-        var objProperty = obj.iterator;
+        var objProperty = obj[iterator];
         if(sortedArray.length === 0 || !objProperty) {
           sortedArray.push(obj);
         }else{
 
           for(var i = 0; i < sortedArray.length; i++){
             var current = sortedArray[i];
-            var currentProperty = current.iterator;
+            var currentProperty = current[iterator];
             var next = sortedArray[i + 1];
         
             if(!currentProperty || currentProperty > objProperty){
@@ -316,7 +316,7 @@ var _ = { };
               sortedArray.push(obj);
               break;
             } else {
-              var nextProperty = next.iterator;
+              var nextProperty = next[iterator];
               if(nextProperty > objProperty){
               sortedArray.splice(i+1, 0, obj);
               break;
